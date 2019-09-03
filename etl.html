@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--Import Google Icon Font-->
+    <meta name = "viewport" content = "width = device-width, initial-scale = 1">      
+    <link rel = "stylesheet"
+       href = "https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel = "stylesheet"
+       href = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
+    <script type = "text/javascript"
+       src = "jquery\jquery-2.1.1.min.js"></script>           
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js">
+    </script>
+    <script>
+        var TxtRotate = function(el, toRotate, period) {
+        this.toRotate = toRotate;
+        this.el = el;
+        this.loopNum = 0;
+        this.period = parseInt(period, 10) || 2000;
+        this.txt = '';
+        this.tick();
+        this.isDeleting = false;
+        };
+
+        TxtRotate.prototype.tick = function() {
+        var i = this.loopNum % this.toRotate.length;
+        var fullTxt = this.toRotate[i];
+
+        if (this.isDeleting) {
+            this.txt = fullTxt.substring(0, this.txt.length - 1);
+        } else {
+            this.txt = fullTxt.substring(0, this.txt.length + 1);
+        }
+
+        this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
+
+        var that = this;
+        var delta = 300 - Math.random() * 100;
+
+        if (this.isDeleting) { delta /= 2; }
+
+        if (!this.isDeleting && this.txt === fullTxt) {
+            delta = this.period;
+            this.isDeleting = true;
+        } else if (this.isDeleting && this.txt === '') {
+            this.isDeleting = false;
+            this.loopNum++;
+            delta = 500;
+        }
+
+        setTimeout(function() {
+            that.tick();
+        }, delta);
+        };
+
+        window.onload = function() {
+        var elements = document.getElementsByClassName('txt-rotate');
+        for (var i=0; i<elements.length; i++) {
+            var toRotate = elements[i].getAttribute('data-rotate');
+            var period = elements[i].getAttribute('data-period');
+            if (toRotate) {
+            new TxtRotate(elements[i], JSON.parse(toRotate), period);
+            }
+        }
+        // INJECT CSS
+        var css = document.createElement("style");
+        css.type = "text/css";
+        css.innerHTML = ".txt-rotate > .wrap { border-right: 0.08em solid #666 }";
+        document.body.appendChild(css);
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <style>
+
+
+            #box-wrapper {
+                color: aliceblue;
+                font: bold italic 15px Calibri;
+                background:#555555;
+                margin: 30px auto 100px;
+                overflow: hidden;
+                padding: 0px;
+                width: 1200px;
+                border-radius: 30px 30px 30px 30px;
+                border: 1px solid #444444;
+                box-shadow: 0 0 10px rgba(0,0,0,0.5), 0 1px 3px rgba(255, 255, 255, 0.2) inset;
+            }
+    
+            #box {
+               /* height: 950px;
+               padding: 30px 0px; */
+               background:#555;
+            }           
+    
+            #box #search input[type="text"] {
+                background: no-repeat 10px 6px #444;
+                border: 0 none;
+                font: bold italic 15px Roboto;
+                color: #d7d7d7;
+                width:190px;
+                padding: 6px 15px 6px 35px;
+                -webkit-border-radius: 20px;
+                -moz-border-radius: 20px;
+                border-radius: 20px;
+                text-shadow: 0 2px 2px rgba(0, 0, 0, 0.3); 
+                -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+                -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+                box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+                -webkit-transition: all 0.7s ease 0s;
+                -moz-transition: all 0.7s ease 0s;
+                -o-transition: all 0.7s ease 0s;
+                transition: all 1s ease 0s;
+                }
+    
+            #box #search input[type="text"]:focus {
+                background: #fcfcfc;
+                color: #6a6f75;
+                width: 400px;
+                -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
+                -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
+                box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 0 rgba(0, 0, 0, 0.9) inset;
+                text-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+                }
+
+            /* img {
+                position:center;
+                } */
+                
+        </style>
+  </head>
+
+  <body id="box">
+        <br><br><br>
+        <div align="center" class="box-wrapper">                
+        <h3 class="header center orange-text">
+        <span class="txt-rotate" data-period="1750" data-rotate='[ "Extract" ]'></span>
+        </h3>   
+    <!-- <form method="post" action="/NameStored" name="form1" onsubmit="return check()" id="search"> 
+
+        <input placeholder="File Name: " name="fn" type="text"> -->
+
+        <div class="container">
+        <ul id = "dropdown1" class="dropdown-content">
+            <li><a href="#">test.py</a></li>
+            <li><a href="#!">prod.py</a></li>
+            <li class="divider"></li>
+            <li class="divider"></li>
+            <li class="divider"></li>
+            <li class="divider"></li>
+            <li><a href="#">ICP4D<span class="badge">14</span></a></li>
+            <li><a href="#">MELTANO<span class="new badge">5</span></a></li>
+        </ul>
+        
+        <a class = "btn dropdown-button" href = "#" data-activates="dropdown1">...Select...
+            <i class = "mdi-navigation-arrow-drop-down right"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="http://google.com" id="download-button" class="btn-small waves-effect waves-light orange" type="submit" name="extractclick"><img src="css/play.png" width="12" height="12"></a>                     
+        </div>
+    </div>
+
+    <br><br>
+
+    <div align="center" class="box-wrapper">                
+            <h3 class="header center white-text">
+                <span class="txt-rotate" data-period="1000" data-rotate='[ "Transform" ]'></span>
+            </h3>
+        <!-- <form method="post" action="/NameStored" name="form1" onsubmit="return check()" id="search"> 
+    
+            <input placeholder="File Name: " name="fn" type="text"> -->
+    
+            <div class="container">
+            <ul id = "dropdown2" class="dropdown-content">
+                <li><a href="#">python.py</a></li>
+                <li><a href="#!">snake.py</a></li>
+                <li><a href="#!">anaconda.py</a></li>
+                <li class="divider"></li>
+            </ul>
+            
+            <a class = "btn dropdown-button" href = "#" data-activates="dropdown2">...Select...
+                <i class = "mdi-navigation-arrow-drop-down right"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="http://google.com" id="download-button" class="btn-small waves-effect waves-light white" type="submit" name="tformclick"><img src="css/play.png" width="12" height="12"></a>                     
+            </div>
+        </div>
+        <br><br>
+
+        
+    <div align="center" class="box-wrapper">                
+        <h3 class="header center green-text">
+            <span class="txt-rotate" data-period="2750" data-rotate='[ "Load" ]'></span>
+        </h3>
+    <!-- <form method="post" action="/NameStored" name="form1" onsubmit="return check()" id="search"> 
+
+        <input placeholder="File Name: " name="fn" type="text"> -->
+
+        <div class="container">
+        <ul id = "dropdown3" class="dropdown-content">
+            <li><a href="#">meltano.py</a></li>
+            <li><a href="#">nehascooty.py</a></li>
+        </ul>
+        
+        <a class = "btn dropdown-button" href = "#" data-activates="dropdown3">...Select...
+            <i class = "mdi-navigation-arrow-drop-down right"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="http://google.com" id="download-button" class="btn-small waves-effect waves-light green" type="submit" name="loaderclick"><img src="css/play.png" width="12" height="12"></a>                     
+        </div>
+    </div>
+
+
+
+  </body>
+</html>
